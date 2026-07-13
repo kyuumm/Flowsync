@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oracle.Shang.flow.mapper.TaskInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.oracle.Shang.flow.domain.TaskInfo">
+            <id property="id" column="id" />
+            <result property="projectId" column="project_id" />
+            <result property="parentId" column="parent_id" />
+            <result property="title" column="title" />
+            <result property="description" column="description" />
+            <result property="assigneeId" column="assignee_id" />
+            <result property="creatorId" column="creator_id" />
+            <result property="status" column="status" />
+            <result property="priority" column="priority" />
+            <result property="dueDate" column="due_date" />
+            <result property="aiSuggestion" column="ai_suggestion" />
+            <result property="createTime" column="create_time" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,project_id,parent_id,title,description,assignee_id,
+        creator_id,status,priority,due_date,ai_suggestion,
+        create_time
+    </sql>
+</mapper>
