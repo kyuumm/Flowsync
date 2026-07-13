@@ -25,4 +25,34 @@ public class TaskInfoServiceTest {
         List<TaskInfo> list = taskInfoService.list();
         list.forEach(System.out::println);
     }
+
+    @Test
+    public void testSave(){
+        TaskInfo taskInfo = new TaskInfo();
+        taskInfo.setProjectId(1L);
+        taskInfo.setTitle("测试标题");
+        taskInfo.setPriority("高");
+        taskInfo.setStatus("未开始");
+        taskInfoService.save(taskInfo);
+    }
+
+    @Test
+    public void testDelete(){
+        taskInfoService.removeById(51L);
+    }
+
+    @Test
+    public void testDetails(){
+        TaskInfo taskInfo=taskInfoService.getById(50L);
+        System.out.println(taskInfo);
+    }
+    @Test
+    public void testUpdate(){
+        TaskInfo taskInfo = new TaskInfo();
+        taskInfo.setId(50L);
+        taskInfo.setProjectId(1L);
+        taskInfo.setTitle("我要下课");
+        taskInfoService.updateById(taskInfo);
+
+    }
 }
