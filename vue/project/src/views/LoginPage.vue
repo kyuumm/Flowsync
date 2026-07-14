@@ -6,15 +6,16 @@
 
       <div class="form-item">
         <label>用户名</label>
-        <input type="text" v-model="username">
+        <!-- 和老师对齐：绑定 data.user 下的字段 -->
+        <input type="text" v-model="data.user.username">
       </div>
 
       <div class="form-item">
         <label>密码</label>
         <div class="pwd-wrap">
-          <input :type="showPwd ? 'text' : 'password'" v-model="password">
-          <span class="pwd-eye" @click="showPwd = !showPwd">
-            {{ showPwd ? '🙈' : '👁' }}
+          <input :type="data.showPwd ? 'text' : 'password'" v-model="data.user.password">
+          <span class="pwd-eye" @click="data.showPwd = !data.showPwd">
+            {{ data.showPwd ? '🙈' : '👁' }}
           </span>
         </div>
       </div>
@@ -25,31 +26,46 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'LoginPage',
-  data() {
-    return {
-      username: 'admin',
-      password: '123456',
-      showPwd: false
-    }
+<!-- 和老师对齐：使用 script setup 组合式语法 -->
+<script setup>
+import { reactive } from 'vue'
+import axios from 'axios'
+import { ElMessage } from 'element-plus'
+import { useRouter } from 'vue-router'
+
+// 路由实例，替代选项式里的 this.$router
+const router = useRouter()
+
+// 响应式数据，和老师的结构完全一致
+const data = reactive({
+  user: {
+    username: 'leader',
+    password: '123456'
   },
-  methods: {
-    handleLogin() {
-      // 简单非空校验
-      if (!this.username.trim() || !this.password.trim()) {
-        alert('请输入用户名和密码')
-        return
-      }
-      
-      console.log('获取到的账号：', this.username)
-      console.log('获取到的密码：', this.password)
-      
-      // 登录成功，跳转到布局主页面
-      this.$router.push('/layout')
-    }
+  showPwd: false
+})
+
+// 登录方法
+const handleLogin = () => {
+  // 非空校验
+  if (!data.user.username.trim() || !data.user.password.trim()) {
+    ElMessage.warning('请输入用户名和密码')
+    return
   }
+
+  console.log('获取到的账号：', data.user.username)
+  console.log('获取到的密码：', data.user.password)
+
+  // 调用后端登录接口，和老师写法完全对齐
+  axios.post('/api/user/login', data.user).then((res) => {
+    console.log(res.data)
+    if (res.data.success) {
+      // 登录成功，跳转到布局主页面
+      router.push('/layout')
+    } else {
+      ElMessage.error('登录失败！')
+    }
+  })
 }
 </script>
 

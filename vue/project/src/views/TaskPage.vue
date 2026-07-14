@@ -6,6 +6,7 @@
       <div class="content-card">
         <div class="card-header">
           <span class="card-title">任务列表</span>
+          <el-button type="primary" @click="load()">加载</el-button>
           <el-button type="primary">+ 新建任务</el-button>
         </div>
 
@@ -43,6 +44,8 @@
 import { ref } from 'vue'
 import PageHeader from '@/components/PageHeader.vue'
 import { statusTagType, priorityTagType } from '@/utils/tags'
+
+
 
 const tasks = ref([
   {
