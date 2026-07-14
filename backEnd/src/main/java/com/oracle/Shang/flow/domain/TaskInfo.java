@@ -1,10 +1,10 @@
 package com.oracle.Shang.flow.domain;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 /**
@@ -63,6 +63,7 @@ public class TaskInfo {
     /**
      * 截止日期
      */
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date dueDate;
 
     /**
@@ -74,4 +75,7 @@ public class TaskInfo {
      * 创建时间
      */
     private Date createTime;
+    @TableLogic
+    private Integer deleted;
+
 }

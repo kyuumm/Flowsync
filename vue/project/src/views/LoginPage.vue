@@ -53,9 +53,6 @@ const handleLogin = () => {
     return
   }
 
-  console.log('获取到的账号：', data.user.username)
-  console.log('获取到的密码：', data.user.password)
-
   // 调用后端登录接口，和老师写法完全对齐
   axios.post('/api/user/login', data.user).then((res) => {
     console.log(res.data)
