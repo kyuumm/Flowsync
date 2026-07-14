@@ -1,8 +1,13 @@
 package com.oracle.Shang.flow.web;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.oracle.Shang.flow.domain.SysUser;
+import com.oracle.Shang.flow.dto.LoginRequest;
 import com.oracle.Shang.flow.entiy.User;
+import com.oracle.Shang.flow.service.SysUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+import hgc.flowsyncapi.common.ApiResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,30 +21,21 @@ import java.util.List;
  */
 @CrossOrigin(origins="*")
 @RestController
+@RequestMapping("/user")
 public class UserController {
-    @GetMapping("/show")
-    public List show(){
-        User shang=new User();
-        shang.setId(1);
-        shang.setUsername("shang");
-        shang.setPassword("123");
-        shang.setRealname("shangX");
-
-        List<User> list=new ArrayList();
-        list.add(shang);
-        return list;
-    }
-
-    @GetMapping("/details/{id}")
-    public String details(@PathVariable int id){
-        System.out.println("id:"+id);
-        return "OK";
-    }
-
+    @Autowired
+    private SysUserService sysUserService;
     @PostMapping("/login")
-    public String login(@RequestBody User user){
-        System.out.println(user);
-        return "OK";
+    public ApiResponse<SysUser> login(@RequestBody LoginRequest loginRequest){
+        QueryWrapper<SysUser> qw = new QueryWrapper<>();
+        qw.eq("username", loginRequest.getUsername());
+        qw.eq("password", loginRequest.getPassword());
+        SysUser user = sysUserService.getOne(qw);
+        if (user == null) {//登录失败
+            return ApiResponse.fail("登录失败");
+        }
+        user.setPassword(null);//脱敏
+        return ApiResponse.ok("登录成功",user);
     }
 
 }
